@@ -39,10 +39,12 @@
 
 .information {
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
-.gameBoard {
-  margin: 5px;
-  background: colors.$GRAY_04;
+.faceIcon {
+  width: 25px;
+  height: 25px;
+  fill: colors.$YELLOW;
 }
