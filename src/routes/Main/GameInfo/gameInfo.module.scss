@@ -1,0 +1,14 @@
+@use '../../../styles/constants/colors';
+
+.informations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.faceIcon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  fill: colors.$YELLOW;
+}

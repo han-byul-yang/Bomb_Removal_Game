@@ -12,12 +12,13 @@ import { BombIcon } from 'assets/svgs'
 import styles from './gameBoard.module.scss'
 
 interface GameBoardProps {
+  countClicked: number
+  setCountClicked: Dispatch<React.SetStateAction<number>>
   isBombError: boolean
   setIsBombError: Dispatch<React.SetStateAction<boolean>>
 }
 
-const GameBoard = ({ isBombError, setIsBombError }: GameBoardProps) => {
-  const [countClicked, setCountClicked] = useState(0)
+const GameBoard = ({ countClicked, setCountClicked, isBombError, setIsBombError }: GameBoardProps) => {
   const { column, row, bomb } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const gameBoard = useSelector((state: RootState) => state.board.boardInfo)
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const GameBoard = ({ isBombError, setIsBombError }: GameBoardProps) => {
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
     setCountClicked((prevCount) => prevCount + 1)
+    console.log(selectedColumn, selectedRow, value)
     if (countClicked === 0) {
       handleFirstTileClick(selectedColumn, selectedRow)
     }
@@ -43,6 +45,7 @@ const GameBoard = ({ isBombError, setIsBombError }: GameBoardProps) => {
       dispatch(setOpenBoardBomb({ selectedColumn, selectedRow }))
     }
     if (value !== 0 && value !== -1) {
+      console.log('dd')
       dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
     }
   }

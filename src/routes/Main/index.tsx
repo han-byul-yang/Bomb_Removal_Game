@@ -4,14 +4,14 @@ import { BoardTileType } from 'types/boardTileType'
 import LevelDropdown from './LevelDropdown'
 import ModalPortal from 'components/Modal/ModalPortal'
 import GameBoard from './GameBoard'
+import GameInfo from './GameInfo'
 import LevelCustomModal from 'components/Modal/LevelCustomModal'
 
-import { SadIcon, SmileIcon } from 'assets/svgs'
 import styles from './main.module.scss'
 
 const Main = () => {
-  const [matrixBoard, setMatrixBoard] = useState<BoardTileType[][]>([])
   const [isBombError, setIsBombError] = useState(false)
+  const [countClicked, setCountClicked] = useState(0)
   const [isOpenLevelDropdown, setIsOpenLevelDropdown] = useState(false)
   const [isOpenLevelCustomModal, setIsOpenLevelCustomModal] = useState(false)
 
@@ -35,12 +35,13 @@ const Main = () => {
             )}
           </div>
           <div className={styles.gameBoardbox}>
-            <div className={styles.information}>
-              <div>clicked num</div>
-              {isBombError ? <SadIcon className={styles.faceIcon} /> : <SmileIcon className={styles.faceIcon} />}
-              <div>timer</div>
-            </div>
-            <GameBoard isBombError={isBombError} setIsBombError={setIsBombError} />
+            <GameInfo isBombError={isBombError} setIsBombError={setIsBombError} setCountClicked={setCountClicked} />
+            <GameBoard
+              isBombError={isBombError}
+              setIsBombError={setIsBombError}
+              countClicked={countClicked}
+              setCountClicked={setCountClicked}
+            />
           </div>
         </div>
       </div>
