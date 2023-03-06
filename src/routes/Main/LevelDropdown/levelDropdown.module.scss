@@ -1,0 +1,24 @@
+@use '../../../styles/constants/colors';
+
+.levelDropdown {
+  position: absolute;
+  top: 5px;
+  background: colors.$WHITE;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 30%);
+
+  li {
+    padding: 5px;
+
+    button {
+      width: 100%;
+      height: 100%;
+      padding: 4px 0;
+      transition: 0.2s;
+
+      &:hover {
+        color: colors.$WHITE;
+        background: colors.$GRAY_04;
+      }
+    }
+  }
+}
