@@ -8,7 +8,7 @@ import putValuesInBoard from 'utils/putValuesInBoard'
 import { RootState } from 'store'
 import { setAddFlag, setDeleteFlag, setNewBoard, setOpenBoardBomb, setOpenBoardTile } from 'store/boardSlice'
 import { setClickCount } from 'store/clickSlice'
-import { setDecreaseBomb, setInitBomb } from 'store/bombCountSlice'
+import { setAllocateBomb, setDecreaseBomb } from 'store/bombCountSlice'
 
 import { BombIcon, FlagIcon } from 'assets/svgs'
 import styles from './gameBoard.module.scss'
@@ -41,7 +41,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProp
     dispatch(setClickCount())
     if (countClicked === 0) {
       handleFirstTileClick(selectedColumn, selectedRow)
-      dispatch(setInitBomb({ bomb }))
+      dispatch(setAllocateBomb({ bomb }))
     }
     if (value === -1) {
       setIsBombError(true)

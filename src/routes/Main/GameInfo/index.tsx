@@ -6,6 +6,7 @@ import { setIncreaseSecond, setInitSecond } from 'store/timerSlice'
 import { RootState } from 'store'
 import { setNewBoard } from 'store/boardSlice'
 import { setInitCount } from 'store/clickSlice'
+import { setInitBomb } from 'store/bombCountSlice'
 
 import { SadIcon, SmileIcon } from 'assets/svgs'
 import styles from './gameInfo.module.scss'
@@ -44,6 +45,7 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
     dispatch(setNewBoard({ newBoard }))
     dispatch(setInitCount())
     dispatch(setInitSecond())
+    dispatch(setInitBomb())
   }
 
   return (

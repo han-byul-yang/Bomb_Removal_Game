@@ -6,6 +6,9 @@ import makeGameBoard from 'utils/makeGameBoard'
 import { RootState } from 'store'
 import { setNewBoard } from 'store/boardSlice'
 import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
+import { setInitCount } from 'store/clickSlice'
+import { setInitSecond } from 'store/timerSlice'
+import { setInitBomb } from 'store/bombCountSlice'
 import { levelTypes } from 'constants/levelConstant'
 
 import styles from './levelDropdown.module.scss'
@@ -13,9 +16,16 @@ import styles from './levelDropdown.module.scss'
 interface LevelDropdownProps {
   setIsOpenLevelDropdown: Dispatch<SetStateAction<boolean>>
   setIsOpenLevelCustomModal: Dispatch<SetStateAction<boolean>>
+  setIsBombError: Dispatch<React.SetStateAction<boolean>>
+  setStartTimer: Dispatch<React.SetStateAction<boolean>>
 }
 
-const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenLevelCustomModal }: LevelDropdownProps) => {
+const LevelDropdown = ({
+  setIsOpenLevelDropdown,
+  setIsOpenLevelCustomModal,
+  setIsBombError,
+  setStartTimer,
+}: LevelDropdownProps) => {
   const { column, row } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const dispatch = useDispatch()
   const targetRef = useRef(null)
@@ -47,6 +57,11 @@ const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenLevelCustomModal }: Le
       const newBoard = makeGameBoard(column, row)
       dispatch(setNewBoard({ newBoard }))
     }
+    setIsBombError(false)
+    setStartTimer(false)
+    dispatch(setInitCount())
+    dispatch(setInitSecond())
+    dispatch(setInitBomb())
     setIsOpenLevelDropdown(false)
   }
 

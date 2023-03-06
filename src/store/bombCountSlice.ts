@@ -8,7 +8,10 @@ const bombCountSlice = createSlice({
   name: 'bombCountSlice',
   initialState,
   reducers: {
-    setInitBomb: (state, action) => {
+    setInitBomb: (state) => {
+      state.bombCount = 0
+    },
+    setAllocateBomb: (state, action) => {
       const { bomb } = action.payload
       state.bombCount = bomb
     },
@@ -18,5 +21,5 @@ const bombCountSlice = createSlice({
   },
 })
 
-export const { setInitBomb, setDecreaseBomb } = bombCountSlice.actions
+export const { setInitBomb, setDecreaseBomb, setAllocateBomb } = bombCountSlice.actions
 export default bombCountSlice

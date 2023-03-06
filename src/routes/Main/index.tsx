@@ -30,6 +30,8 @@ const Main = () => {
               <LevelDropdown
                 setIsOpenLevelDropdown={setIsOpenLevelDropdown}
                 setIsOpenLevelCustomModal={setIsOpenLevelCustomModal}
+                setIsBombError={setIsBombError}
+                setStartTimer={setStartTimer}
               />
             )}
           </div>
