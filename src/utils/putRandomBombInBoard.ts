@@ -1,4 +1,6 @@
 /* eslint-disable no-plusplus */
+
+import _ from 'lodash'
 import { BoardTileType } from 'types/boardTileType'
 
 function putRandomBombInBoard(
@@ -9,7 +11,7 @@ function putRandomBombInBoard(
   selectedColumn?: number,
   selctedRow?: number
 ) {
-  const newBoard = [...board]
+  const newBoard = _.cloneDeep(board)
   let loopCount = bomb
 
   for (let i = 0; i < loopCount; i++) {
