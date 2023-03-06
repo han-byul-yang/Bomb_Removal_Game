@@ -21,12 +21,12 @@ const gameSettingSlice = createSlice({
     setExpert: (state) => {
       state.gameSettingInfo = { column: 16, row: 32, bomb: 100 }
     },
-    customSetting: (state, action) => {
+    setCustomSetting: (state, action) => {
       const { column, row, bomb } = action.payload
       state.gameSettingInfo = { column, row, bomb }
     },
   },
 })
 
-export const { setBeginner, setIntermediate, setExpert, customSetting } = gameSettingSlice.actions
+export const { setBeginner, setIntermediate, setExpert, setCustomSetting } = gameSettingSlice.actions
 export default gameSettingSlice

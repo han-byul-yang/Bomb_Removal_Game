@@ -2,17 +2,17 @@ import { MouseEvent, Dispatch, SetStateAction, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import useClickOutside from 'hooks/useClickOuside'
-import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
+import { setBeginner, setIntermediate, setExpert, setCustomSetting } from 'store/gameSettingSlice'
 import { levelTypes } from 'constants/levelConstant'
 
 import styles from './levelDropdown.module.scss'
 
 interface LevelDropdownProps {
   setIsOpenLevelDropdown: Dispatch<SetStateAction<boolean>>
-  setIsOpenCustomSettingModal: Dispatch<SetStateAction<boolean>>
+  setIsOpenLevelCustomModal: Dispatch<SetStateAction<boolean>>
 }
 
-const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenCustomSettingModal }: LevelDropdownProps) => {
+const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenLevelCustomModal }: LevelDropdownProps) => {
   const dispatch = useDispatch()
   const targetRef = useRef(null)
 
@@ -26,11 +26,14 @@ const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenCustomSettingModal }: 
   }, [clickOutsideEvent])
 
   const handleGameLevelClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const clickedLevel = e.currentTarget.value
+    const clickedLevel = e.currentTarget.name
     if (clickedLevel === 'Beginner') dispatch(setBeginner())
     if (clickedLevel === 'Intermediate') dispatch(setIntermediate())
     if (clickedLevel === 'Expert') dispatch(setExpert())
-    if (clickedLevel === 'Custom') setIsOpenCustomSettingModal(true)
+    if (clickedLevel === 'Custom') {
+      setIsOpenLevelCustomModal(true)
+      dispatch(setCustomSetting({ column: 0, row: 0, bomb: 0 }))
+    }
   }
 
   return (
@@ -40,7 +43,7 @@ const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenCustomSettingModal }: 
 
         return (
           <li key={levelKey}>
-            <button type='button' onClick={handleGameLevelClick}>
+            <button type='button' name={level} onClick={handleGameLevelClick}>
               {level}
             </button>
           </li>
