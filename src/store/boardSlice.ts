@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { BoardTileType } from 'types/boardTileType'
 
 const initialState = {
-  boardInfo: [[{ value: 0, isOpen: false }]] as BoardTileType[][],
+  boardInfo: [[{ value: 0, isOpen: false, isFlag: false }]] as BoardTileType[][],
 }
 
 const boardSlice = createSlice({
@@ -31,8 +31,16 @@ const boardSlice = createSlice({
       }) */
       state.boardInfo[selectedColumn][selectedRow].isOpen = true
     },
+    setAddFlag: (state, action) => {
+      const { selectedColumn, selectedRow } = action.payload
+      state.boardInfo[selectedColumn][selectedRow].isFlag = true
+    },
+    setDeleteFlag: (state, action) => {
+      const { selectedColumn, selectedRow } = action.payload
+      state.boardInfo[selectedColumn][selectedRow].isFlag = false
+    },
   },
 })
 
-export const { setNewBoard, setOpenBoardTile, setOpenBoardBomb } = boardSlice.actions
+export const { setNewBoard, setOpenBoardTile, setOpenBoardBomb, setAddFlag, setDeleteFlag } = boardSlice.actions
 export default boardSlice

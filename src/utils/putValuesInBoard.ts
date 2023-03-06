@@ -17,7 +17,7 @@ function putValuesInBoard(board: BoardTileType[][]) {
       if (i < board.length - 1 && board[i + 1][v]?.value === -1) valueCount += 1
       if (i < board.length - 1 && v > 0 && board[i + 1][v - 1]?.value === -1) valueCount += 1
       if (i < board.length - 1 && v < board[i].length - 1 && board[i + 1][v + 1]?.value === -1) valueCount += 1
-      board[i][v] = { value: valueCount, isOpen: false }
+      board[i][v] = { value: valueCount, isOpen: false, isFlag: false }
     }
   }
 

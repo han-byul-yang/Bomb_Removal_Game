@@ -21,7 +21,7 @@ function putRandomBombInBoard(
     if (randomNumberColumn === selectedColumn && randomNumberRow === selctedRow) loopCount += 1
     else if (newBoard[randomNumberColumn][randomNumberRow]) loopCount += 1
     else {
-      newBoard[randomNumberColumn][randomNumberRow] = { value: -1, isOpen: false }
+      newBoard[randomNumberColumn][randomNumberRow] = { value: -1, isOpen: false, isFlag: false }
     }
   }
   return newBoard
