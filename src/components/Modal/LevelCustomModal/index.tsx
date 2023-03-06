@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Dispatch, FormEventHandler, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useClickOutside from 'hooks/useClickOuside'
@@ -41,7 +41,7 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) 
   }
 
   const handleSubmitButtonClick = () => {
-    dispatch(setCustomSetting({ column: columnInput, row: rowInput, bomb: bombInput }))
+    dispatch(setCustomSetting({ column: Number(columnInput), row: Number(rowInput), bomb: Number(bombInput) }))
     setIsOpenLevelCustomModal(false)
   }
 
@@ -52,12 +52,12 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) 
         <p>Custom Game Setup</p>
         <form className={styles.settingForm}>
           <p>Game Height:</p>
-          <input type='text' name='column' value={column} onChange={handleCustomSettingChange} />
+          <input type='text' name='column' value={columnInput} onChange={handleCustomSettingChange} />
           <p>Game Width:</p>
-          <input type='text' name='row' value={row} onChange={handleCustomSettingChange} />
+          <input type='text' name='row' value={rowInput} onChange={handleCustomSettingChange} />
           <p>Number of Bombs:</p>
-          <input type='text' name='bomb' value={bomb} onChange={handleCustomSettingChange} />
-          <button type='submit' className={styles.submitButton} onClick={handleSubmitButtonClick}>
+          <input type='text' name='bomb' value={bombInput} onChange={handleCustomSettingChange} />
+          <button type='button' className={styles.submitButton} onClick={handleSubmitButtonClick}>
             set over
           </button>
         </form>

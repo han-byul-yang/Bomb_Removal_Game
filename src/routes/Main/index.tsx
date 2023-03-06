@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { BoardTileType } from 'types/boardTileType'
 import LevelDropdown from './LevelDropdown'
 import ModalPortal from 'components/Modal/ModalPortal'
+import GameBoard from './GameBoard'
 import LevelCustomModal from 'components/Modal/LevelCustomModal'
 
 import styles from './main.module.scss'
@@ -20,7 +21,7 @@ const Main = () => {
     <>
       <div className={styles.background}>
         <div className={styles.boardContainer}>
-          <button type='button' onClick={handleGameButtonClick}>
+          <button type='button' className={styles.levelButton} onClick={handleGameButtonClick}>
             Game
           </button>
           <div className={styles.gameSetting}>
@@ -37,7 +38,7 @@ const Main = () => {
               <div>face icon</div>
               <div>timer</div>
             </div>
-            <div className={styles.gameBoard} />
+            <GameBoard />
           </div>
         </div>
       </div>
