@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { BoardTileType } from 'types/boardTileType'
 import LevelDropdown from './LevelDropdown'
 import ModalPortal from 'components/Modal/ModalPortal'
 import GameBoard from './GameBoard'
@@ -11,7 +10,6 @@ import styles from './main.module.scss'
 
 const Main = () => {
   const [isBombError, setIsBombError] = useState(false)
-  const [countClicked, setCountClicked] = useState(0)
   const [isOpenLevelDropdown, setIsOpenLevelDropdown] = useState(false)
   const [isOpenLevelCustomModal, setIsOpenLevelCustomModal] = useState(false)
 
@@ -35,13 +33,8 @@ const Main = () => {
             )}
           </div>
           <div className={styles.gameBoardbox}>
-            <GameInfo isBombError={isBombError} setIsBombError={setIsBombError} setCountClicked={setCountClicked} />
-            <GameBoard
-              isBombError={isBombError}
-              setIsBombError={setIsBombError}
-              countClicked={countClicked}
-              setCountClicked={setCountClicked}
-            />
+            <GameInfo isBombError={isBombError} setIsBombError={setIsBombError} />
+            <GameBoard isBombError={isBombError} setIsBombError={setIsBombError} />
           </div>
         </div>
       </div>
