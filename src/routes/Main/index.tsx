@@ -10,6 +10,7 @@ import styles from './main.module.scss'
 
 const Main = () => {
   const [isBombError, setIsBombError] = useState(false)
+  const [startTimer, setStartTimer] = useState(false)
   const [isOpenLevelDropdown, setIsOpenLevelDropdown] = useState(false)
   const [isOpenLevelCustomModal, setIsOpenLevelCustomModal] = useState(false)
 
@@ -33,8 +34,13 @@ const Main = () => {
             )}
           </div>
           <div className={styles.gameBoardbox}>
-            <GameInfo isBombError={isBombError} setIsBombError={setIsBombError} />
-            <GameBoard isBombError={isBombError} setIsBombError={setIsBombError} />
+            <GameInfo
+              isBombError={isBombError}
+              setIsBombError={setIsBombError}
+              startTimer={startTimer}
+              setStartTimer={setStartTimer}
+            />
+            <GameBoard isBombError={isBombError} setIsBombError={setIsBombError} setStartTimer={setStartTimer} />
           </div>
         </div>
       </div>

@@ -1,5 +1,11 @@
 @use '../../../styles/constants/colors';
 
+@mixin tileButton {
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+}
+
 .gameBoard {
   margin-top: 10px;
   border: 4px solid colors.$GRAY_01;
@@ -17,20 +23,32 @@
   display: inline-block;
   width: 30px;
   height: 30px;
+  border: 1px solid colors.$GRAY_04;
+}
+
+.openButton {
+  @include tileButton;
+  color: colors.$WHITE;
+  background: colors.$GRAY_04;
+  border: 1px solid colors.$WHITE;
+  box-shadow: -2px -1px -1px 2px rgba(0, 0, 0, 30%);
+}
+
+.closeButton {
+  @include tileButton;
+  color: colors.$GRAY_01;
   background: colors.$GRAY_01;
   border: 1px solid colors.$GRAY_04;
-
-  button {
-    width: 100%;
-    height: 100%;
-    font-weight: 700;
-    color: colors.$FONT;
-    border: 1px solid colors.$GRAY_04;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 30%);
-  }
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 30%);
 }
 
 .bombIcon {
   width: 10px;
   height: 10px;
+}
+
+.flagIcon {
+  width: 10px;
+  height: 10px;
+  fill: colors.$FLAG;
 }

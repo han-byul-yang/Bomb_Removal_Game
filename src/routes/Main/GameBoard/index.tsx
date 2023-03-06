@@ -16,9 +16,10 @@ import styles from './gameBoard.module.scss'
 interface GameBoardProps {
   isBombError: boolean
   setIsBombError: Dispatch<React.SetStateAction<boolean>>
+  setStartTimer: Dispatch<React.SetStateAction<boolean>>
 }
 
-const GameBoard = ({ isBombError, setIsBombError }: GameBoardProps) => {
+const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProps) => {
   const { column, row, bomb } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const gameBoard = useSelector((state: RootState) => state.board.boardInfo)
   const countClicked = useSelector((state: RootState) => state.click.tileClicked)
@@ -36,15 +37,16 @@ const GameBoard = ({ isBombError, setIsBombError }: GameBoardProps) => {
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
+    setStartTimer(true)
     dispatch(setClickCount())
     if (countClicked === 0) {
-      console.log(countClicked)
       handleFirstTileClick(selectedColumn, selectedRow)
       dispatch(setInitBomb({ bomb }))
     }
     if (value === -1) {
       setIsBombError(true)
       dispatch(setOpenBoardBomb({ selectedColumn, selectedRow }))
+      setStartTimer(false)
     }
     if (value !== 0 && value !== -1) {
       dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
