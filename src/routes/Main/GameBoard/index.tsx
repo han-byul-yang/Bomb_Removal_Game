@@ -1,13 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import makeGameBoard from 'utils/makeGameBoard'
+import putRandomBombInBoard from 'utils/putRandomBombInBoard'
+import putValuesInBoard from 'utils/putValuesInBoard'
 import { RootState } from 'store'
 import { setNewBoard } from 'store/boardSlice'
 
 import styles from './gameBoard.module.scss'
 
 const GameBoard = () => {
+  const [countClicked, setCountClicked] = useState(0)
   const { column, row, bomb } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const gameBoard = useSelector((state: RootState) => state.board.boardInfo)
   const dispatch = useDispatch()
@@ -16,6 +19,19 @@ const GameBoard = () => {
     const newBoard = makeGameBoard(column, row)
     dispatch(setNewBoard({ newBoard }))
   }, [column, dispatch, row])
+
+  const handleFirstTileClick = (selectedColumn: number, selectedRow: number) => {
+    const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
+    const valueSettedBoard = putValuesInBoard(bombSettedBoard)
+    dispatch(setNewBoard({ valueSettedBoard }))
+  }
+
+  const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
+    setCountClicked((prevCount) => prevCount + 1)
+    if (countClicked === 0) {
+      handleFirstTileClick(selectedColumn, selectedRow)
+    }
+  }
 
   return (
     <div className={styles.gameBoard}>
@@ -32,7 +48,9 @@ const GameBoard = () => {
                       {tile && tile.isOpen ? (
                         <button type='button'>{tile.value}</button>
                       ) : (
-                        <button type='button'> </button>
+                        <button type='button' onClick={() => handleOpenTileClick(icolumnTiles, iTile, tile?.value)}>
+                          {' '}
+                        </button>
                       )}
                     </li>
                   )
