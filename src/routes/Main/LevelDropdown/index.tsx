@@ -1,6 +1,7 @@
-import { useState, MouseEvent, Dispatch, SetStateAction } from 'react'
+import { MouseEvent, Dispatch, SetStateAction, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
+import useClickOutside from 'hooks/useClickOuside'
 import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
 import { levelTypes } from 'constants/levelConstant'
 
@@ -13,6 +14,16 @@ interface LevelDropdownProps {
 
 const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenCustomSettingModal }: LevelDropdownProps) => {
   const dispatch = useDispatch()
+  const targetRef = useRef(null)
+
+  const clickOutsideHandle = () => {
+    setIsOpenLevelDropdown(false)
+  }
+  const { clickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
+
+  useEffect(() => {
+    clickOutsideEvent()
+  }, [clickOutsideEvent])
 
   const handleGameLevelClick = (e: MouseEvent<HTMLButtonElement>) => {
     const clickedLevel = e.currentTarget.value
@@ -23,7 +34,7 @@ const LevelDropdown = ({ setIsOpenLevelDropdown, setIsOpenCustomSettingModal }: 
   }
 
   return (
-    <ul className={styles.levelDropdown}>
+    <ul className={styles.levelDropdown} ref={targetRef}>
       {levelTypes.map((level, index) => {
         const levelKey = `level-${index}`
 
