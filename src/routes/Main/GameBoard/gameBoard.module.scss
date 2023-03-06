@@ -1,0 +1,26 @@
+@use '../../../styles/constants/colors';
+
+.gameBoard {
+  margin-top: 10px;
+  border: 4px solid colors.$GRAY_01;
+}
+
+.columnTiles {
+  height: 30px;
+}
+
+.tile {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: colors.$GRAY_01;
+  border: 1px solid colors.$GRAY_04;
+
+  button {
+    width: 100%;
+    height: 100%;
+    color: colors.$WHITE;
+    border: 1px solid colors.$GRAY_04;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 30%);
+  }
+}
