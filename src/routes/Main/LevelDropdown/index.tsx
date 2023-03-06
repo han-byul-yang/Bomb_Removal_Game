@@ -5,7 +5,7 @@ import useClickOutside from 'hooks/useClickOuside'
 import makeGameBoard from 'utils/makeGameBoard'
 import { RootState } from 'store'
 import { setNewBoard } from 'store/boardSlice'
-import { setBeginner, setIntermediate, setExpert, setCustomSetting } from 'store/gameSettingSlice'
+import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
 import { levelTypes } from 'constants/levelConstant'
 
 import styles from './levelDropdown.module.scss'

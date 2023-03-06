@@ -14,8 +14,12 @@ const boardSlice = createSlice({
       const { newBoard } = action.payload
       state.boardInfo = newBoard
     },
+    setOpenBoardTile: (state, action) => {
+      const { selectedColumn, selectedRow } = action.payload
+      state.boardInfo[selectedColumn][selectedRow].isOpen = true
+    },
   },
 })
 
-export const { setNewBoard } = boardSlice.actions
+export const { setNewBoard, setOpenBoardTile } = boardSlice.actions
 export default boardSlice

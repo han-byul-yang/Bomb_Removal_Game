@@ -5,7 +5,7 @@ import makeGameBoard from 'utils/makeGameBoard'
 import putRandomBombInBoard from 'utils/putRandomBombInBoard'
 import putValuesInBoard from 'utils/putValuesInBoard'
 import { RootState } from 'store'
-import { setNewBoard } from 'store/boardSlice'
+import { setNewBoard, setOpenBoardTile } from 'store/boardSlice'
 
 import styles from './gameBoard.module.scss'
 
@@ -23,13 +23,16 @@ const GameBoard = () => {
   const handleFirstTileClick = (selectedColumn: number, selectedRow: number) => {
     const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
     const valueSettedBoard = putValuesInBoard(bombSettedBoard)
-    dispatch(setNewBoard({ valueSettedBoard }))
+    dispatch(setNewBoard({ newBoard: valueSettedBoard }))
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
     setCountClicked((prevCount) => prevCount + 1)
     if (countClicked === 0) {
       handleFirstTileClick(selectedColumn, selectedRow)
+    }
+    if (value !== 0 && value !== -1) {
+      dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
     }
   }
 
