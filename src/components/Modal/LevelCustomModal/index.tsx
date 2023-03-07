@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux'
 
 import useClickOutside from 'hooks/useClickOuside'
 import { setCustomSetting } from 'store/gameSettingSlice'
+import { setInitCountBomb } from 'store/bombCountSlice'
+import { setInitCount } from 'store/clickSlice'
+import { setInitSecond } from 'store/timerSlice'
 import ErrorModal from '../ErrorModal'
 import ModalPortal from '../ModalPortal'
 
@@ -11,9 +14,11 @@ import styles from './levelCustomModal.module.scss'
 
 interface LevelCustomModalProps {
   setIsOpenLevelCustomModal: Dispatch<SetStateAction<boolean>>
+  setIsBombError: Dispatch<SetStateAction<boolean>>
+  setStartTimer: Dispatch<SetStateAction<boolean>>
 }
 
-const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) => {
+const LevelCustomModal = ({ setIsOpenLevelCustomModal, setIsBombError, setStartTimer }: LevelCustomModalProps) => {
   const [columnInput, setColumnInput] = useState('')
   const [rowInput, setRowInput] = useState('')
   const [bombInput, setBombInput] = useState('')
@@ -59,6 +64,11 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) 
       customInputValidCheck()
       dispatch(setCustomSetting({ column: Number(columnInput), row: Number(rowInput), bomb: Number(bombInput) }))
       setIsOpenLevelCustomModal(false)
+      setIsBombError(false)
+      setStartTimer(false)
+      dispatch(setInitCount())
+      dispatch(setInitSecond())
+      dispatch(setInitCountBomb())
     } catch (e) {
       if (e instanceof Error) {
         setErrorMessage(e.message)

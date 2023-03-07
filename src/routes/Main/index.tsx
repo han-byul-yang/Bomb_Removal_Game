@@ -55,7 +55,11 @@ const Main = () => {
       </div>
       {isOpenLevelCustomModal && (
         <ModalPortal>
-          <LevelCustomModal setIsOpenLevelCustomModal={setIsOpenLevelCustomModal} />
+          <LevelCustomModal
+            setIsOpenLevelCustomModal={setIsOpenLevelCustomModal}
+            setIsBombError={setIsBombError}
+            setStartTimer={setStartTimer}
+          />
         </ModalPortal>
       )}
       {isOpenWinModal && (

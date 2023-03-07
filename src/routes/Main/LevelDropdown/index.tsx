@@ -58,12 +58,12 @@ const LevelDropdown = ({
     if (clickedLevel !== 'Custom') {
       const newBoard = makeGameBoard(column, row)
       dispatch(setNewBoard({ newBoard }))
+      setIsBombError(false)
+      setStartTimer(false)
+      dispatch(setInitCount())
+      dispatch(setInitSecond())
+      dispatch(setInitCountBomb())
     }
-    setIsBombError(false)
-    setStartTimer(false)
-    dispatch(setInitCount())
-    dispatch(setInitSecond())
-    dispatch(setInitCountBomb())
     setIsOpenLevelDropdown(false)
   }
 
