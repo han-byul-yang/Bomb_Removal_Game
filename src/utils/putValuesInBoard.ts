@@ -1,22 +1,23 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-plusplus */
-
 import { BoardTileType } from 'types/boardTileType'
 
+const valueNearTiles = (board: BoardTileType[][], checkColumn: number, checkRow: number) => {
+  let valueCount = 0
+  for (let i = checkColumn - 1; i < checkColumn + 2; i++) {
+    for (let v = checkRow - 1; v < checkRow + 2; v++) {
+      if (!board[i] || !board[i][v]) continue
+      if (board[i][v].value === -1) valueCount += 1
+    }
+  }
+  return valueCount
+}
+
 function putValuesInBoard(board: BoardTileType[][]) {
-  // if (!board[i - 1]) 식으로 해결할 수 있을 듯
   for (let i = 0; i < board.length; i++) {
     for (let v = 0; v < board[i].length; v++) {
-      let valueCount = 0
       if (board[i][v]?.value) continue
-      if (v > 0 && board[i][v - 1]?.value === -1) valueCount += 1
-      if (v < board[i].length - 1 && board[i][v + 1]?.value === -1) valueCount += 1
-      if (i > 0 && board[i - 1][v]?.value === -1) valueCount += 1
-      if (i > 0 && v > 0 && board[i - 1][v - 1]?.value === -1) valueCount += 1
-      if (i > 0 && v < board[i].length - 1 && board[i - 1][v + 1]?.value === -1) valueCount += 1
-      if (i < board.length - 1 && board[i + 1][v]?.value === -1) valueCount += 1
-      if (i < board.length - 1 && v > 0 && board[i + 1][v - 1]?.value === -1) valueCount += 1
-      if (i < board.length - 1 && v < board[i].length - 1 && board[i + 1][v + 1]?.value === -1) valueCount += 1
+      const valueCount = valueNearTiles(board, i, v)
       board[i][v] = { value: valueCount, isOpen: false, isFlag: false }
     }
   }
