@@ -8,7 +8,7 @@ import { setNewBoard } from 'store/boardSlice'
 import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
 import { setInitCount } from 'store/clickSlice'
 import { setInitSecond } from 'store/timerSlice'
-import { setInitBomb } from 'store/bombCountSlice'
+import { setInitCountBomb } from 'store/bombCountSlice'
 import { levelTypes } from 'constants/levelConstant'
 
 import styles from './levelDropdown.module.scss'
@@ -61,7 +61,7 @@ const LevelDropdown = ({
     setStartTimer(false)
     dispatch(setInitCount())
     dispatch(setInitSecond())
-    dispatch(setInitBomb())
+    dispatch(setInitCountBomb())
     setIsOpenLevelDropdown(false)
   }
 

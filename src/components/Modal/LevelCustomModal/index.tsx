@@ -1,22 +1,20 @@
-import { ChangeEvent, Dispatch, FormEventHandler, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import useClickOutside from 'hooks/useClickOuside'
-import { RootState } from 'store'
 import { setCustomSetting } from 'store/gameSettingSlice'
 
 import { XIcon } from 'assets/svgs'
 import styles from './levelCustomModal.module.scss'
 
 interface LevelCustomModalProps {
-  setIsOpenLevelCustomModal: Dispatch<React.SetStateAction<boolean>>
+  setIsOpenLevelCustomModal: Dispatch<SetStateAction<boolean>>
 }
 
 const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) => {
   const [columnInput, setColumnInput] = useState('')
   const [rowInput, setRowInput] = useState('')
   const [bombInput, setBombInput] = useState('')
-  const { column, row, bomb } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const dispatch = useDispatch()
   const targetRef = useRef(null)
 

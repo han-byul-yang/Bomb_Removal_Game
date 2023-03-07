@@ -16,13 +16,13 @@
 }
 
 .columnTiles {
-  height: 30px;
+  height: 18px;
 }
 
 .tile {
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 18px;
+  height: 18px;
   border: 1px solid colors.$GRAY_04;
 }
 
@@ -50,5 +50,6 @@
 .flagIcon {
   width: 10px;
   height: 10px;
+  pointer-events: none;
   fill: colors.$FLAG;
 }

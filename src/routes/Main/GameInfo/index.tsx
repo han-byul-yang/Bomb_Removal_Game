@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import makeGameBoard from 'utils/makeGameBoard'
@@ -6,16 +6,16 @@ import { setIncreaseSecond, setInitSecond } from 'store/timerSlice'
 import { RootState } from 'store'
 import { setNewBoard } from 'store/boardSlice'
 import { setInitCount } from 'store/clickSlice'
-import { setInitBomb } from 'store/bombCountSlice'
+import { setInitCountBomb } from 'store/bombCountSlice'
 
 import { SadIcon, SmileIcon } from 'assets/svgs'
 import styles from './gameInfo.module.scss'
 
 interface GameInfoProps {
   startTimer: boolean
-  setStartTimer: Dispatch<React.SetStateAction<boolean>>
+  setStartTimer: Dispatch<SetStateAction<boolean>>
   isBombError: boolean
-  setIsBombError: Dispatch<React.SetStateAction<boolean>>
+  setIsBombError: Dispatch<SetStateAction<boolean>>
 }
 
 const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: GameInfoProps) => {
@@ -45,7 +45,7 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
     dispatch(setNewBoard({ newBoard }))
     dispatch(setInitCount())
     dispatch(setInitSecond())
-    dispatch(setInitBomb())
+    dispatch(setInitCountBomb())
   }
 
   return (

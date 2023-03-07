@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, MouseEvent } from 'react'
+import { Dispatch, useEffect, MouseEvent, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import cx from 'classnames'
 
@@ -8,18 +8,19 @@ import putValuesInBoard from 'utils/putValuesInBoard'
 import { RootState } from 'store'
 import { setAddFlag, setDeleteFlag, setNewBoard, setOpenBoardBomb, setOpenBoardTile } from 'store/boardSlice'
 import { setClickCount } from 'store/clickSlice'
-import { setAllocateBomb, setDecreaseBomb } from 'store/bombCountSlice'
+import { setAddCountBomb, setAllocateCountBomb, setDecreaseCountBomb } from 'store/bombCountSlice'
 
 import { BombIcon, FlagIcon } from 'assets/svgs'
 import styles from './gameBoard.module.scss'
 
 interface GameBoardProps {
   isBombError: boolean
-  setIsBombError: Dispatch<React.SetStateAction<boolean>>
-  setStartTimer: Dispatch<React.SetStateAction<boolean>>
+  setIsBombError: Dispatch<SetStateAction<boolean>>
+  setStartTimer: Dispatch<SetStateAction<boolean>>
+  setIsOpenWinModal: Dispatch<SetStateAction<boolean>>
 }
 
-const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProps) => {
+const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinModal }: GameBoardProps) => {
   const { column, row, bomb } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const gameBoard = useSelector((state: RootState) => state.board.boardInfo)
   const countClicked = useSelector((state: RootState) => state.click.tileClicked)
@@ -34,6 +35,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProp
     const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
     const valueSettedBoard = putValuesInBoard(bombSettedBoard)
     dispatch(setNewBoard({ newBoard: valueSettedBoard }))
+    dispatch(setAllocateCountBomb({ bomb }))
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
@@ -41,12 +43,12 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProp
     dispatch(setClickCount())
     if (countClicked === 0) {
       handleFirstTileClick(selectedColumn, selectedRow)
-      dispatch(setAllocateBomb({ bomb }))
     }
+    if (countClicked === column * row - bomb) setIsOpenWinModal(true)
     if (value === -1) {
       setIsBombError(true)
-      dispatch(setOpenBoardBomb({ selectedColumn, selectedRow }))
       setStartTimer(false)
+      dispatch(setOpenBoardBomb({ selectedColumn, selectedRow }))
     }
     if (value !== 0 && value !== -1) {
       dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
@@ -56,11 +58,13 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer }: GameBoardProp
   const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedColumn: number, selectedRow: number) => {
     e.preventDefault()
     if (countClicked !== 0) {
-      dispatch(setDecreaseBomb())
-    }
-    if (countClicked !== 0) {
-      if (gameBoard[selectedColumn][selectedRow].isFlag) dispatch(setDeleteFlag({ selectedColumn, selectedRow }))
-      else dispatch(setAddFlag({ selectedColumn, selectedRow }))
+      if (gameBoard[selectedColumn][selectedRow].isFlag) {
+        dispatch(setDeleteFlag({ selectedColumn, selectedRow }))
+        dispatch(setAddCountBomb())
+      } else {
+        dispatch(setAddFlag({ selectedColumn, selectedRow }))
+        dispatch(setDecreaseCountBomb())
+      }
     }
   }
 
