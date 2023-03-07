@@ -27,6 +27,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   const gameBoard = useSelector((state: RootState) => state.board.boardInfo)
   const countClicked = useSelector((state: RootState) => state.click.tileClicked)
   const dispatch = useDispatch()
+  const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
 
   useEffect(() => {
     const newBoard = makeGameBoard(column, row)
@@ -43,7 +44,6 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
-    const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
     dispatch(setClickCount())
     if (countClicked === 0) handleFirstTileClick(selectedColumn, selectedRow)
     if (value === -1) {
