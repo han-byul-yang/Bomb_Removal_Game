@@ -6,7 +6,7 @@ import cx from 'classnames'
 import makeGameBoard from 'utils/makeGameBoard'
 import putRandomBombInBoard from 'utils/putRandomBombInBoard'
 import putValuesInBoard from 'utils/putValuesInBoard'
-import openUntilValueTiles from 'utils/checkZeroValueTiles'
+import openUntilValueTiles from 'utils/openUntilValueTiles'
 import { RootState } from 'store'
 import { setAddFlag, setDeleteFlag, setNewBoard, setOpenBoardBomb, setOpenBoardTile } from 'store/boardSlice'
 import { setClickCount } from 'store/clickSlice'
@@ -95,7 +95,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
                           ) : tile.value === 0 ? (
                             'x'
                           ) : (
-                            tile.value
+                            <p className={styles.tileValue}>{tile.value}</p>
                           )}
                         </button>
                       ) : (
