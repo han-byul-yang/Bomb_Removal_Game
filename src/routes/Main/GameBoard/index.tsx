@@ -1,10 +1,12 @@
 import { Dispatch, useEffect, MouseEvent, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import _ from 'lodash'
 import cx from 'classnames'
 
 import makeGameBoard from 'utils/makeGameBoard'
 import putRandomBombInBoard from 'utils/putRandomBombInBoard'
 import putValuesInBoard from 'utils/putValuesInBoard'
+import openUntilValueTiles from 'utils/checkZeroValueTiles'
 import { RootState } from 'store'
 import { setAddFlag, setDeleteFlag, setNewBoard, setOpenBoardBomb, setOpenBoardTile } from 'store/boardSlice'
 import { setClickCount } from 'store/clickSlice'
@@ -39,20 +41,21 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
+    const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
     setStartTimer(true)
     dispatch(setClickCount())
-    if (countClicked === 0) {
-      handleFirstTileClick(selectedColumn, selectedRow)
-    }
-    if (countClicked === column * row - bomb) setIsOpenWinModal(true)
+    if (countClicked === 0) handleFirstTileClick(selectedColumn, selectedRow)
+    if (openTiles.length + 1 === column * row - bomb) setIsOpenWinModal(true)
     if (value === -1) {
       setIsBombError(true)
       setStartTimer(false)
-      dispatch(setOpenBoardBomb({ selectedColumn, selectedRow }))
+      dispatch(setOpenBoardBomb())
     }
-    if (value !== 0 && value !== -1) {
-      dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
+    if (value === 0) {
+      const newBoard = openUntilValueTiles(gameBoard, selectedColumn, selectedRow)
+      dispatch(setNewBoard({ newBoard }))
     }
+    if (value !== 0 && value !== -1) dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
   }
 
   const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedColumn: number, selectedRow: number) => {
