@@ -6,6 +6,16 @@
   justify-content: space-between;
 }
 
+.infoItem {
+  width: 40px;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: colors.$FLAG;
+  background: colors.$GRAY_00;
+  border: 2px inset colors.$GRAY_03;
+}
+
 .faceIcon {
   width: 25px;
   height: 25px;

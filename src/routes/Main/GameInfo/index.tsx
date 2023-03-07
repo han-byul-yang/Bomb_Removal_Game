@@ -50,13 +50,13 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
 
   return (
     <div className={styles.informations}>
-      <div>{bombCount}</div>
+      <div className={styles.infoItem}>{bombCount}</div>
       {isBombError ? (
         <SadIcon className={styles.faceIcon} onClick={handleRestartGameClick} />
       ) : (
         <SmileIcon className={styles.faceIcon} onClick={handleRestartGameClick} />
       )}
-      <div>{timerSecond}</div>
+      <div className={styles.infoItem}>{timerSecond}</div>
     </div>
   )
 }
