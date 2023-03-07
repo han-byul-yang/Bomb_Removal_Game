@@ -16,11 +16,13 @@ const ErrorModal = ({ setIsOpenErrorModal, errorMessage }: ErrorModalProps) => {
   const clickOutsideHandle = () => {
     setIsOpenErrorModal(false)
   }
-  const { clickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
+  const { clickOutsideEvent, removeClickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
 
   useEffect(() => {
     clickOutsideEvent()
-  }, [clickOutsideEvent])
+
+    return () => removeClickOutsideEvent()
+  }, [clickOutsideEvent, removeClickOutsideEvent])
 
   const handleCloseModalClick = () => {
     setIsOpenErrorModal(false)

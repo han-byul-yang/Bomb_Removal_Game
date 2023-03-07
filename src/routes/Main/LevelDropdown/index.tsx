@@ -33,11 +33,13 @@ const LevelDropdown = ({
   const clickOutsideHandle = () => {
     setIsOpenLevelDropdown(false)
   }
-  const { clickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
+  const { clickOutsideEvent, removeClickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
 
   useEffect(() => {
     clickOutsideEvent()
-  }, [clickOutsideEvent])
+
+    return () => removeClickOutsideEvent()
+  }, [clickOutsideEvent, removeClickOutsideEvent])
 
   const handleGameLevelClick = (e: MouseEvent<HTMLButtonElement>) => {
     const clickedLevel = e.currentTarget.name

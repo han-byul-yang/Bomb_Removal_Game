@@ -20,11 +20,13 @@ const WinModal = ({ setIsOpenWinModal }: WinModalProps) => {
   const clickOutsideHandle = () => {
     setIsOpenWinModal(false)
   }
-  const { clickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
+  const { clickOutsideEvent, removeClickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
 
   useEffect(() => {
     clickOutsideEvent()
-  }, [clickOutsideEvent])
+
+    return () => removeClickOutsideEvent()
+  }, [clickOutsideEvent, removeClickOutsideEvent])
 
   const handleCloseModalClick = () => {
     setIsOpenWinModal(false)

@@ -14,14 +14,14 @@ const useClickOutside = ({ targetRef, clickOutsideHandle }: useClickTargetProps)
   const clickOutsideEvent = () => {
     document.addEventListener('mousedown', handleTargetClick)
     document.addEventListener('touchstart', handleTargetClick)
-
-    return () => {
-      document.addEventListener('mousedown', handleTargetClick)
-      document.addEventListener('touchstart', handleTargetClick)
-    }
   }
 
-  return { clickOutsideEvent }
+  const removeClickOutsideEvent = () => {
+    document.removeEventListener('mousedown', handleTargetClick)
+    document.removeEventListener('touchstart', handleTargetClick)
+  }
+
+  return { clickOutsideEvent, removeClickOutsideEvent }
 }
 
 export default useClickOutside

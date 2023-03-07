@@ -36,7 +36,8 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   const handleFirstTileClick = (selectedColumn: number, selectedRow: number) => {
     const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
     const valueSettedBoard = putValuesInBoard(bombSettedBoard)
-    dispatch(setNewBoard({ newBoard: valueSettedBoard }))
+    const openedNearTileBoard = openUntilValueTiles(valueSettedBoard, selectedColumn, selectedRow)
+    dispatch(setNewBoard({ newBoard: openedNearTileBoard }))
     dispatch(setAllocateCountBomb({ bomb }))
     setStartTimer(true)
   }
@@ -45,10 +46,6 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
     const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
     dispatch(setClickCount())
     if (countClicked === 0) handleFirstTileClick(selectedColumn, selectedRow)
-    if (openTiles.length + 1 === column * row - bomb) {
-      setIsOpenWinModal(true)
-      setStartTimer(false)
-    }
     if (value === -1) {
       setIsBombError(true)
       setStartTimer(false)
@@ -59,6 +56,10 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
       dispatch(setNewBoard({ newBoard }))
     }
     if (value !== 0 && value !== -1) dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
+    if (openTiles.length + 1 === column * row - bomb && value !== -1) {
+      setIsOpenWinModal(true)
+      setStartTimer(false)
+    }
   }
 
   const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedColumn: number, selectedRow: number) => {

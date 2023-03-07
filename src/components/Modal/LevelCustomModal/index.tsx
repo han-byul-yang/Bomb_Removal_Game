@@ -25,11 +25,13 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) 
   const clickOutsideHandle = () => {
     setIsOpenLevelCustomModal(false)
   }
-  const { clickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
+  const { clickOutsideEvent, removeClickOutsideEvent } = useClickOutside({ targetRef, clickOutsideHandle })
 
   useEffect(() => {
     clickOutsideEvent()
-  }, [clickOutsideEvent])
+
+    return () => removeClickOutsideEvent()
+  }, [clickOutsideEvent, removeClickOutsideEvent])
 
   const handleCustomSettingChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget
