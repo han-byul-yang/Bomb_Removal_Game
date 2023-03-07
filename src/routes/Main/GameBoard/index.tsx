@@ -38,14 +38,17 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
     const valueSettedBoard = putValuesInBoard(bombSettedBoard)
     dispatch(setNewBoard({ newBoard: valueSettedBoard }))
     dispatch(setAllocateCountBomb({ bomb }))
+    setStartTimer(true)
   }
 
   const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
     const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
-    setStartTimer(true)
     dispatch(setClickCount())
     if (countClicked === 0) handleFirstTileClick(selectedColumn, selectedRow)
-    if (openTiles.length + 1 === column * row - bomb) setIsOpenWinModal(true)
+    if (openTiles.length + 1 === column * row - bomb) {
+      setIsOpenWinModal(true)
+      setStartTimer(false)
+    }
     if (value === -1) {
       setIsBombError(true)
       setStartTimer(false)

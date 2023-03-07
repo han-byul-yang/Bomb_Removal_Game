@@ -49,7 +49,6 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal }: LevelCustomModalProps) 
     if (isNaN(Number(columnInput)) || isNaN(Number(rowInput)) || isNaN(Number(bombInput)))
       throw Error('SHOULD INPUT NUMBER')
     if (column * row <= bomb) throw Error('NO BOMB LENGTH MORE THAN TILES')
-    // eslint-disable-next-line no-useless-return
     if (!column || !row || !bomb) throw Error('PUT ALL INPUT')
   }
 

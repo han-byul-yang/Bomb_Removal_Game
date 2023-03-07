@@ -31,11 +31,10 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
         dispatch(setIncreaseSecond())
       }, 1000)
     }
-    if (!startTimer) {
-      dispatch(setInitSecond())
-    }
 
-    return () => clearInterval(timerId)
+    return () => {
+      clearInterval(timerId)
+    }
   }, [dispatch, startTimer])
 
   const handleRestartGameClick = () => {
