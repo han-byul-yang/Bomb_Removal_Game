@@ -19,17 +19,14 @@ const boardSlice = createSlice({
       const { selectedColumn, selectedRow } = action.payload
       state.boardInfo[selectedColumn][selectedRow].isOpen = true
     },
-    setOpenBoardBomb: (state, action) => {
-      const { selectedColumn, selectedRow } = action.payload
-      const searchItem = { value: -1, isOpen: false }
-      /* const bombBoardIndexs = _.find(board, (subArray) => {
-        const index = _.findIndex(subArray, { value: -1 })
-        return index !== -1
-      }) */
-      /* const bombBoardIndexs = _.flatMap(board, (subArray, index) => {
-        return _.filter(subArray, { value: -1 }).map(() => subArray)
-      }) */
-      state.boardInfo[selectedColumn][selectedRow].isOpen = true
+    setOpenBoardBomb: (state) => {
+      const bombBoard = state.boardInfo.map((board) =>
+        board.map((item) => {
+          if (item.value === -1) return { ...item, isOpen: true }
+          return item
+        })
+      )
+      state.boardInfo = bombBoard
     },
     setAddFlag: (state, action) => {
       const { selectedColumn, selectedRow } = action.payload
