@@ -1,4 +1,6 @@
 /* eslint-disable no-plusplus */
+
+// column * row의 빈 행렬 보드 생성
 function makeGameBoard(column: number, row: number) {
   const columnArray = new Array(column)
   const board = [...columnArray]

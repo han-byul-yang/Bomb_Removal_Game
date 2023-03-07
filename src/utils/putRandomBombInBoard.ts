@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
-
 import _ from 'lodash'
 import { BoardTileType } from 'types/boardTileType'
 
+// 빈 행렬보드에 랜덤으로 bomb(value === -1)과 데이터 객체 할당하기
 function putRandomBombInBoard(
   board: BoardTileType[][],
   column: number,
