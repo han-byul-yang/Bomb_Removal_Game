@@ -40,7 +40,7 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
   const handleRestartGameClick = () => {
     setIsBombError(false)
     setStartTimer(false)
-    const newBoard = makeGameBoard(column, row)
+    const newBoard = makeGameBoard(row, column)
     dispatch(setNewBoard({ newBoard }))
     dispatch(setInitCount())
     dispatch(setInitSecond())

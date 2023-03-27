@@ -19,8 +19,8 @@ interface LevelCustomModalProps {
 }
 
 const LevelCustomModal = ({ setIsOpenLevelCustomModal, setIsBombError, setStartTimer }: LevelCustomModalProps) => {
-  const [columnInput, setColumnInput] = useState('')
   const [rowInput, setRowInput] = useState('')
+  const [columnInput, setColumnInput] = useState('')
   const [bombInput, setBombInput] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isOpenErrorModal, setIsOpenErrorModal] = useState(false)
@@ -40,8 +40,8 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal, setIsBombError, setStartT
 
   const handleCustomSettingChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget
-    if (name === 'column') setColumnInput(value)
     if (name === 'row') setRowInput(value)
+    if (name === 'column') setColumnInput(value)
     if (name === 'bomb') setBombInput(value)
   }
 
@@ -50,8 +50,8 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal, setIsBombError, setStartT
   }
 
   const customInputValidCheck = () => {
-    const column = Number(columnInput)
     const row = Number(rowInput)
+    const column = Number(columnInput)
     const bomb = Number(bombInput)
     if (isNaN(Number(columnInput)) || isNaN(Number(rowInput)) || isNaN(Number(bombInput)))
       throw Error('SHOULD INPUT NUMBER')
@@ -85,9 +85,9 @@ const LevelCustomModal = ({ setIsOpenLevelCustomModal, setIsBombError, setStartT
           <p>Custom Game Setup</p>
           <form className={styles.settingForm}>
             <p>Game Height:</p>
-            <input type='text' name='column' value={columnInput} onChange={handleCustomSettingChange} />
-            <p>Game Width:</p>
             <input type='text' name='row' value={rowInput} onChange={handleCustomSettingChange} />
+            <p>Game Width:</p>
+            <input type='text' name='column' value={columnInput} onChange={handleCustomSettingChange} />
             <p>Number of Bombs:</p>
             <input type='text' name='bomb' value={bombInput} onChange={handleCustomSettingChange} />
             <button type='button' className={styles.submitButton} onClick={handleSubmitButtonClick}>

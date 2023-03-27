@@ -30,24 +30,24 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   const openTiles = _.flattenDeep(gameBoard).filter((tile) => tile?.isOpen)
 
   useEffect(() => {
-    const newBoard = makeGameBoard(column, row)
+    const newBoard = makeGameBoard(row, column)
     dispatch(setNewBoard({ newBoard }))
   }, [column, dispatch, row])
 
-  const handleFirstTileClick = (selectedColumn: number, selectedRow: number) => {
-    const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
-    const openedNearTileBoard = openUntilValueTiles(bombSettedBoard, selectedColumn, selectedRow)
+  const handleFirstTileClick = (selectedRow: number, selectedColumn: number) => {
+    const bombSettedBoard = putRandomBombInBoard(gameBoard, row, column, bomb, selectedRow, selectedColumn)
+    const openedNearTileBoard = openUntilValueTiles(bombSettedBoard, selectedRow, selectedColumn)
     dispatch(setNewBoard({ newBoard: openedNearTileBoard }))
     dispatch(setAllocateCountBomb({ bomb }))
     setStartTimer(true)
   }
 
-  const handleOpenTileClick = (selectedColumn: number, selectedRow: number) => {
-    const tileValue = getTileValue(gameBoard, selectedColumn, selectedRow)
-    const selectedTile = gameBoard[selectedColumn][selectedRow]
+  const handleOpenTileClick = (selectedRow: number, selectedColumn: number) => {
+    const tileValue = getTileValue(gameBoard, selectedRow, selectedColumn)
+    const selectedTile = gameBoard[selectedRow][selectedColumn]
     dispatch(setClickCount())
     if (countClicked === 0) {
-      handleFirstTileClick(selectedColumn, selectedRow)
+      handleFirstTileClick(selectedRow, selectedColumn)
       return
     }
     if (selectedTile.isBomb) {
@@ -60,7 +60,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
       return
     }
     if (tileValue === 0 && countClicked !== 0) {
-      const newBoard = openUntilValueTiles(gameBoard, selectedColumn, selectedRow)
+      const newBoard = openUntilValueTiles(gameBoard, selectedRow, selectedColumn)
       dispatch(setNewBoard({ newBoard }))
     }
     if (tileValue !== 0) {
@@ -72,10 +72,10 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
     }
   }
 
-  const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedColumn: number, selectedRow: number) => {
+  const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedRow: number, selectedColumn: number) => {
     e.preventDefault()
     if (countClicked === 0) return
-    if (gameBoard[selectedColumn][selectedRow].isFlag) {
+    if (gameBoard[selectedRow][selectedColumn].isFlag) {
       dispatch(setDeleteFlag({ selectedColumn, selectedRow }))
       dispatch(setAddCountBomb())
     } else {
@@ -91,12 +91,12 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
       })}
     >
       <ul>
-        {gameBoard?.map((columnTiles, icolumnTiles) => {
-          const columnKey = `column-${icolumnTiles}`
+        {gameBoard?.map((rowTiles, iRowTiles) => {
+          const rowKey = `row-${iRowTiles}`
           return (
-            <li key={columnKey} className={styles.columnTiles}>
-              <ul className={styles.columnTiles}>
-                {columnTiles.map((tile, iTile) => {
+            <li key={rowKey} className={styles.rowTiles}>
+              <ul className={styles.rowTiles}>
+                {rowTiles.map((tile, iTile) => {
                   const tileKey = `tile-${iTile}`
                   return (
                     <li key={tileKey} className={styles.tile}>
@@ -115,8 +115,8 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
                         <button
                           type='button'
                           className={styles.closeButton}
-                          onClick={() => handleOpenTileClick(icolumnTiles, iTile)}
-                          onContextMenu={(e) => handleAddFlagClick(e, icolumnTiles, iTile)}
+                          onClick={() => handleOpenTileClick(iRowTiles, iTile)}
+                          onContextMenu={(e) => handleAddFlagClick(e, iRowTiles, iTile)}
                         >
                           {tile.isFlag ? <FlagIcon className={styles.flagIcon} /> : 0}
                         </button>
