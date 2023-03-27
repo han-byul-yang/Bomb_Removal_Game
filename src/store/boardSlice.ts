@@ -16,9 +16,9 @@ const boardSlice = createSlice({
       state.boardInfo = newBoard
     },
     setOpenBoardTile: (state, action) => {
-      const { selectedColumn, selectedRow, value } = action.payload
-      state.boardInfo[selectedColumn][selectedRow].isOpen = true
-      state.boardInfo[selectedColumn][selectedRow].value = value
+      const { selectedRow, selectedColumn, value } = action.payload
+      state.boardInfo[selectedRow][selectedColumn].isOpen = true
+      state.boardInfo[selectedRow][selectedColumn].value = value
     },
     setOpenBoardBomb: (state) => {
       const bombBoard = state.boardInfo.map((board) =>
@@ -30,12 +30,12 @@ const boardSlice = createSlice({
       state.boardInfo = bombBoard
     },
     setAddFlag: (state, action) => {
-      const { selectedColumn, selectedRow } = action.payload
-      state.boardInfo[selectedColumn][selectedRow].isFlag = true
+      const { selectedRow, selectedColumn } = action.payload
+      state.boardInfo[selectedRow][selectedColumn].isFlag = true
     },
     setDeleteFlag: (state, action) => {
-      const { selectedColumn, selectedRow } = action.payload
-      state.boardInfo[selectedColumn][selectedRow].isFlag = false
+      const { selectedRow, selectedColumn } = action.payload
+      state.boardInfo[selectedRow][selectedColumn].isFlag = false
     },
   },
 })

@@ -19,7 +19,7 @@ const gameSettingSlice = createSlice({
       state.gameSettingInfo = { column: 16, row: 16, bomb: 40 }
     },
     setExpert: (state) => {
-      state.gameSettingInfo = { column: 16, row: 32, bomb: 100 }
+      state.gameSettingInfo = { column: 32, row: 16, bomb: 100 }
     },
     setCustomSetting: (state, action) => {
       const { column, row, bomb } = action.payload
