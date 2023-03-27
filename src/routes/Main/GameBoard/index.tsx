@@ -1,12 +1,12 @@
-import { Dispatch, useEffect, MouseEvent, SetStateAction } from 'react'
+import { Dispatch, useEffect, MouseEvent, SetStateAction, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 import cx from 'classnames'
 
 import makeGameBoard from 'utils/makeGameBoard'
 import putRandomBombInBoard from 'utils/putRandomBombInBoard'
-import putValuesInBoard from 'utils/putValuesInBoard'
 import openUntilValueTiles from 'utils/openUntilValueTiles'
+import getTileValue from 'utils/getTileValue'
 import { RootState } from 'store'
 import { setAddFlag, setDeleteFlag, setNewBoard, setOpenBoardBomb, setOpenBoardTile } from 'store/boardSlice'
 import { setClickCount } from 'store/clickSlice'
@@ -36,27 +36,37 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
 
   const handleFirstTileClick = (selectedColumn: number, selectedRow: number) => {
     const bombSettedBoard = putRandomBombInBoard(gameBoard, column, row, bomb, selectedColumn, selectedRow)
-    const valueSettedBoard = putValuesInBoard(bombSettedBoard)
-    const openedNearTileBoard = openUntilValueTiles(valueSettedBoard, selectedColumn, selectedRow)
+    const openedNearTileBoard = openUntilValueTiles(bombSettedBoard, selectedColumn, selectedRow)
     dispatch(setNewBoard({ newBoard: openedNearTileBoard }))
     dispatch(setAllocateCountBomb({ bomb }))
     setStartTimer(true)
   }
 
-  const handleOpenTileClick = (selectedColumn: number, selectedRow: number, value: number) => {
+  const handleOpenTileClick = (selectedColumn: number, selectedRow: number) => {
+    const tileValue = getTileValue(gameBoard, selectedColumn, selectedRow)
+    const selectedTile = gameBoard[selectedColumn][selectedRow]
     dispatch(setClickCount())
-    if (countClicked === 0) handleFirstTileClick(selectedColumn, selectedRow)
-    if (value === -1) {
+    if (countClicked === 0) {
+      handleFirstTileClick(selectedColumn, selectedRow)
+      return
+    }
+    if (selectedTile.isBomb) {
       setIsBombError(true)
       setStartTimer(false)
       dispatch(setOpenBoardBomb())
+      return
     }
-    if (value === 0) {
+    if (selectedTile.isFlag) {
+      return
+    }
+    if (tileValue === 0 && countClicked !== 0) {
       const newBoard = openUntilValueTiles(gameBoard, selectedColumn, selectedRow)
       dispatch(setNewBoard({ newBoard }))
     }
-    if (value !== 0 && value !== -1) dispatch(setOpenBoardTile({ selectedColumn, selectedRow }))
-    if (openTiles.length + 1 === column * row - bomb && value !== -1) {
+    if (tileValue !== 0) {
+      dispatch(setOpenBoardTile({ selectedColumn, selectedRow, value: tileValue }))
+    }
+    if (openTiles.length + 1 === column * row - bomb && tileValue !== -1) {
       setIsOpenWinModal(true)
       setStartTimer(false)
     }
@@ -64,14 +74,13 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
 
   const handleAddFlagClick = (e: MouseEvent<HTMLButtonElement>, selectedColumn: number, selectedRow: number) => {
     e.preventDefault()
-    if (countClicked !== 0) {
-      if (gameBoard[selectedColumn][selectedRow].isFlag) {
-        dispatch(setDeleteFlag({ selectedColumn, selectedRow }))
-        dispatch(setAddCountBomb())
-      } else {
-        dispatch(setAddFlag({ selectedColumn, selectedRow }))
-        dispatch(setDecreaseCountBomb())
-      }
+    if (countClicked === 0) return
+    if (gameBoard[selectedColumn][selectedRow].isFlag) {
+      dispatch(setDeleteFlag({ selectedColumn, selectedRow }))
+      dispatch(setAddCountBomb())
+    } else {
+      dispatch(setAddFlag({ selectedColumn, selectedRow }))
+      dispatch(setDecreaseCountBomb())
     }
   }
 
@@ -94,7 +103,7 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
                       {tile && tile.isOpen ? (
                         <button type='button' className={styles.openButton}>
                           {/* eslint-disable-next-line no-nested-ternary */}
-                          {tile.value === -1 ? (
+                          {tile.isBomb ? (
                             <BombIcon className={styles.bombIcon} />
                           ) : tile.value === 0 ? (
                             'x'
@@ -106,10 +115,10 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
                         <button
                           type='button'
                           className={styles.closeButton}
-                          onClick={() => handleOpenTileClick(icolumnTiles, iTile, tile?.value)}
+                          onClick={() => handleOpenTileClick(icolumnTiles, iTile)}
                           onContextMenu={(e) => handleAddFlagClick(e, icolumnTiles, iTile)}
                         >
-                          {tile?.isFlag ? <FlagIcon className={styles.flagIcon} /> : 0}
+                          {tile.isFlag ? <FlagIcon className={styles.flagIcon} /> : 0}
                         </button>
                       )}
                     </li>
@@ -124,4 +133,4 @@ const GameBoard = ({ isBombError, setIsBombError, setStartTimer, setIsOpenWinMod
   )
 }
 
-export default GameBoard
+export default memo(GameBoard)
