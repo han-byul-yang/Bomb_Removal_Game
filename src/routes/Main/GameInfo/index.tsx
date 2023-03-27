@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import makeGameBoard from 'utils/makeGameBoard'
@@ -60,4 +60,4 @@ const GameInfo = ({ startTimer, setStartTimer, isBombError, setIsBombError }: Ga
   )
 }
 
-export default GameInfo
+export default memo(GameInfo)

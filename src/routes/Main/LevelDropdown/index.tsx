@@ -1,10 +1,7 @@
-import { MouseEvent, Dispatch, SetStateAction, useRef, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { MouseEvent, Dispatch, SetStateAction, useRef, useEffect, memo } from 'react'
+import { useDispatch } from 'react-redux'
 
 import useClickOutside from 'hooks/useClickOuside'
-import makeGameBoard from 'utils/makeGameBoard'
-import { RootState } from 'store'
-import { setNewBoard } from 'store/boardSlice'
 import { setBeginner, setIntermediate, setExpert } from 'store/gameSettingSlice'
 import { setInitCount } from 'store/clickSlice'
 import { setInitSecond } from 'store/timerSlice'
@@ -26,7 +23,6 @@ const LevelDropdown = ({
   setIsBombError,
   setStartTimer,
 }: LevelDropdownProps) => {
-  const { column, row } = useSelector((state: RootState) => state.gameSetting.gameSettingInfo)
   const dispatch = useDispatch()
   const targetRef = useRef(null)
 
@@ -56,8 +52,6 @@ const LevelDropdown = ({
       setIsOpenLevelCustomModal(true)
     }
     if (clickedLevel !== 'Custom') {
-      const newBoard = makeGameBoard(column, row)
-      dispatch(setNewBoard({ newBoard }))
       setIsBombError(false)
       setStartTimer(false)
       dispatch(setInitCount())
@@ -84,4 +78,4 @@ const LevelDropdown = ({
   )
 }
 
-export default LevelDropdown
+export default memo(LevelDropdown)
