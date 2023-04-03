@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import _ from 'lodash'
 
 import { BoardTileType } from 'types/boardTileType'
 
