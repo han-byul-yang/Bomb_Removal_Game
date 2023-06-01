@@ -45,8 +45,5 @@ Column과 row, bomb 개수를 설정할 때 useReducer 사용에 대한 고민�
 ### 5.2. 배열 리터럴([]) vs 생성자 객체(new Array) :round_pushpin:[코드 보기](https://github.com/han-byul-yang/Removal_Game/blob/805f69c13e2a8e2c84febd3b0e83a6f90323a41c/src/utils/makeGameBoard.ts#L6)
 새로운 보드를 구현할 때 new Array를 활용할지 []를 활용할지에 대한 고민이 있었다. 요소의 양이 늘어날 수록 리터럴 방식에 비해 new Array의 시간 비용이 더 늘어난다고 알고 있었지만, 내 로직에서는 console.time과 console.timeEnd로 테스트 해봤을 때 큰 차이가 없었다. 이에 새로운 보드를 생성하면서 요소의 length를 간단하게 부여하고 채워주고자 new Array를 사용하였다. 
 
-### 5.3. 속도 vs 코드 직관성 :round_pushpin:[블로그]()
+### 5.3. 속도 vs 코드 직관성
 주변 8개의 타일에 bomb을 배치시키지 않기 위한 주변 타일 검사 과정이 있었다. 이를 위해 고차 함수 some을 이용한 방법과 if문을 사용하는 방법을 비교하였다. 결과적으로 some 고차 함수를 이용한 코드 직관성이 훨씬 좋았지만, if 를 이용하여 일일히 비교하는 과정이 더 빨랐다. 게임 환경 사용성을 높이기 위해 코드 직관성 보단 속도를 선택하여 if 문을 사용해주었다.
-
-## 6. 트러블 슈팅
-### 6.1. 오류 :round_pushpin:[코드 보기](https://github.com/han-byul-yang/Removal_Game/blob/805f69c13e2a8e2c84febd3b0e83a6f90323a41c/src/utils/openUntilValueTiles.ts#L41) [블로그]() 
